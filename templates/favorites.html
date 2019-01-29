@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block results %}
+    <center>
+        <table>
+            <tr>
+                <th>Course Title</th>
+                <th>Term</th>
+                <th>Link to Canvas Site</th>
+                <th>Unfavorite</th>
+                <th>Download All Course Files</th>
+            </tr>
+            {% for site in favorites %}
+                <tr>
+                    <td>{{ site["course_title"] }}</td>
+                    <td>{{ site["course_term"] }}</td>
+                    <td><a href={{ site["course_link"] }}>Site</a></td>
+                    <td>
+                        <form class="unfavorite" action="/unfavorite" method="post">
+                            <button type="submit" class="btn btn-primary" name="unfavorite" value={{ site["course_id"] }}>Unfavorite</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="download-favorites" action="/download-favorites" method="post">
+                            <button type="submit" class="btn btn-primary" name="dl_button" value={{ site["course_id"] }}>Download Files</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </center>
+{% endblock %}

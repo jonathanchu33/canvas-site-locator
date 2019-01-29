@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block results %}
+    <!-- http://getbootstrap.com/css/#forms -->
+    <form id="search-form" action="/" method="post">
+        <div class="form-group">
+            <input autofocus class="form-control" name="course" type="text" placeholder="Course" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <center>
+        No results found. Please make sure course number is entered exactly as on catalog, i.e. "Compsci 50". Case insensitive.
+    </center>
+{% endblock %}

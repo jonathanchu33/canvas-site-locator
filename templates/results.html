@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block results %}
+    <!-- http://getbootstrap.com/css/#forms -->
+    <form id="search-form" action="/" method="post">
+        <div class="form-group">
+            <input autofocus class="form-control" name="course" type="text" placeholder="Course" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <center>
+        <table>
+            <tr>
+                <th>Course Title</th>
+                <th>Term</th>
+                <th>Link to Canvas Site</th>
+                <th>Favorite this Site</th>
+                <th>Download All Course Files</th>
+            </tr>
+            {% for site in sites %}
+                <tr>
+                    <td>{{ site[0].name }}</td>
+                    <td>{{ site[2] }}</td>
+                    <td><a href={{ site[1] }}>Site</a></td>
+                    <td>
+                        <form class="favorite">
+                            <!-- action="/favorite" method="post" onsubmit="fav(); return false;" -->
+                            <!-- <input type="button" class="btn btn-primary" id="download" value={{ sites.index(site) }} > -->
+                            <button type="submit" class="btn btn-primary" name="fav_button" value={{ sites.index(site) | string }}>Favorite</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="download" action="/download" method="post">
+                            <button type="submit" class="btn btn-primary" name="dl_button" value={{ sites.index(site) | string }}>Download Files</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </center>
+{% endblock %}
