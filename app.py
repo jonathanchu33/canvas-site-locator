@@ -19,7 +19,7 @@ functions with Harvard student account Canvas privileges.
 https://canvas.instructure.com/doc/api/file.oauth.html#manual-token-generation
 https://canvas.harvard.edu/profile/settings
 """
-API_KEY = ""
+API_KEY = "1875~aSAa4Xc6qmtYpmPZ2PIgb665SkMQ6jMSerrn3RdzzmMlofcWozija77QIeJxZqsF"
 
 # Initialize a new Canvas object
 canvas = canvasapi.Canvas(API_URL, API_KEY)
@@ -166,7 +166,7 @@ def download_files(course):
                 errors += 1
 
         for subfolder in subfolders:
-            os.system("cd " + folder_str_name + " && mkdir '" + subfolder.name.replace("'", "") + "'")
+            os.system("cd '" + folder_str_name + "' && mkdir '" + subfolder.name.replace("'", "") + "'")
             errors += download_organized(subfolder, folder_str_name + "/" + subfolder.name.replace("'", ""))
 
         return errors
@@ -181,3 +181,4 @@ def download_files(course):
     for file in all_files:
         file.download("./" + str(course.id) + "_files/" + file.filename)
     """
+
