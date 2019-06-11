@@ -19,7 +19,7 @@ functions with Harvard student account Canvas privileges.
 https://canvas.instructure.com/doc/api/file.oauth.html#manual-token-generation
 https://canvas.harvard.edu/profile/settings
 """
-API_KEY = "1875~diJBahkEWtUCX1jte3j7lRCBLxQkpSsbnSss2jAjLpjS8k0NeDvjuUmBtcP6eC1N"
+API_KEY = ""
 
 # Initialize a new Canvas object
 canvas = canvasapi.Canvas(API_URL, API_KEY)
@@ -142,7 +142,25 @@ def download_favorites():
     return jsonify(message=status)
 
 
-# Function: download all of course's files
+# Recursive download of files
+def download_organized(folder, folder_str_name):
+    errors = 0
+    subfolders = folder.get_folders()
+    subfiles = folder.get_files()
+
+    for subfile in subfiles:
+        try:
+            subfile.download("./" + folder_str_name + "/" + subfile.display_name)
+        except FileNotFoundError:
+            errors += 1
+
+    for subfolder in subfolders:
+        os.system("cd '" + folder_str_name + "' && mkdir '" + subfolder.name.replace("'", "") + "'")
+        errors += download_organized(subfolder, folder_str_name + "/" + subfolder.name.replace("'", ""))
+
+    return errors
+
+# Download all of course's files by starting at root file folder
 def download_files(course):
     all_folders = course.get_folders()
     root_folder = None
@@ -154,31 +172,5 @@ def download_files(course):
     if not root_folder:
         return -1
 
-    def download_organized(folder, folder_str_name):
-        errors = 0
-        subfolders = folder.get_folders()
-        subfiles = folder.get_files()
-
-        for subfile in subfiles:
-            try:
-                subfile.download("./" + folder_str_name + "/" + subfile.display_name)
-            except FileNotFoundError:
-                errors += 1
-
-        for subfolder in subfolders:
-            os.system("cd '" + folder_str_name + "' && mkdir '" + subfolder.name.replace("'", "") + "'")
-            errors += download_organized(subfolder, folder_str_name + "/" + subfolder.name.replace("'", ""))
-
-        return errors
-
     os.system("mkdir " + str(course.id) + "_files")
     return download_organized(root_folder, str(course.id) + "_files")
-
-
-    """
-    all_files = course.get_files()
-    os.system("mkdir " + str(course.id) + "_files")
-    for file in all_files:
-        file.download("./" + str(course.id) + "_files/" + file.filename)
-    """
-
