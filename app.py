@@ -19,7 +19,7 @@ functions with Harvard student account Canvas privileges.
 https://canvas.instructure.com/doc/api/file.oauth.html#manual-token-generation
 https://canvas.harvard.edu/profile/settings
 """
-API_KEY = "1875~aSAa4Xc6qmtYpmPZ2PIgb665SkMQ6jMSerrn3RdzzmMlofcWozija77QIeJxZqsF"
+API_KEY = "1875~diJBahkEWtUCX1jte3j7lRCBLxQkpSsbnSss2jAjLpjS8k0NeDvjuUmBtcP6eC1N"
 
 # Initialize a new Canvas object
 canvas = canvasapi.Canvas(API_URL, API_KEY)
@@ -161,7 +161,7 @@ def download_files(course):
 
         for subfile in subfiles:
             try:
-                subfile.download("./" + folder_str_name + "/" + subfile.filename)
+                subfile.download("./" + folder_str_name + "/" + subfile.display_name)
             except FileNotFoundError:
                 errors += 1
 
